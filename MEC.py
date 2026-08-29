@@ -8,7 +8,11 @@ from sklearn.metrics import mean_absolute_error, r2_score
 from xgboost import XGBRegressor
 
 # Page configuration
-st.set_page_config(page_title="MEC-AI", layout="wide")
+st.set_page_config(
+    page_title="MEC-AI", 
+    layout="wide", 
+    initial_sidebar_state="expanded"
+)
 st.title("MEC-AI: Hydrogen Production & Wastewater Monitoring")
 st.markdown("Predict hydrogen production and find optimal operating conditions using machine learning.")
 
