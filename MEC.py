@@ -9,7 +9,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 from xgboost import XGBRegressor
 
 # --------------------------------------------------
-# 1. PAGE CONFIG & CUSTOM CSS
+# 1. PAGE CONFIG & CUSTOM STYLING WITH FANCY CURSOR
 # --------------------------------------------------
 st.set_page_config(
     page_title="MEC-AI | Hydrogen Intelligence Platform",
@@ -18,21 +18,36 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Custom CSS: Custom Crosshair Cursor, Glow Effects & Dark Theme
 st.markdown("""
     <style>
+    /* Custom Fancy Crosshair Cursor for Entire App */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
+        cursor: crosshair !important;
+    }
+
+    /* Pointer Cursor with Glow Effect on Interactive Controls */
+    button, input, select, .stSlider, a, [role="button"], [data-baseweb="tab"] {
+        cursor: pointer !important;
+    }
+
     .main { background-color: #0E1117; }
+    
     .stMetric {
         background-color: #1E222D;
         padding: 15px;
         border-radius: 10px;
         border-left: 4px solid #00D4FF;
+        box-shadow: 0 4px 10px rgba(0, 212, 255, 0.1);
     }
+    
     .status-card {
         background-color: #1E222D;
         padding: 16px;
         border-radius: 12px;
         border-left: 5px solid #00E676;
         margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 230, 118, 0.15);
     }
     </style>
 """, unsafe_allow_html=True)
