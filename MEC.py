@@ -3,13 +3,14 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit.components.v1 as components
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
 from xgboost import XGBRegressor
 
 # --------------------------------------------------
-# 1. PAGE CONFIG & CUSTOM STYLING WITH FANCY CURSOR
+# 1. PAGE CONFIG & LIGHTNING CURSOR STYLING
 # --------------------------------------------------
 st.set_page_config(
     page_title="MEC-AI | Hydrogen Intelligence Platform",
@@ -18,17 +19,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS: Custom Crosshair Cursor, Glow Effects & Dark Theme
+# Lightning Bolt Icon Cursor + Neon Blue Theme
 st.markdown("""
     <style>
-    /* Custom Fancy Crosshair Cursor for Entire App */
+    /* Lightning Bolt Icon Cursor */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
-        cursor: crosshair !important;
+        cursor: url('https://img.icons8.com/color/32/000000/lightning-bolt.png') 16 16, auto !important;
     }
 
-    /* Pointer Cursor with Glow Effect on Interactive Controls */
     button, input, select, .stSlider, a, [role="button"], [data-baseweb="tab"] {
-        cursor: pointer !important;
+        cursor: url('https://img.icons8.com/color/32/000000/lightning-bolt.png') 16 16, pointer !important;
     }
 
     .main { background-color: #0E1117; }
@@ -38,7 +38,7 @@ st.markdown("""
         padding: 15px;
         border-radius: 10px;
         border-left: 4px solid #00D4FF;
-        box-shadow: 0 4px 10px rgba(0, 212, 255, 0.1);
+        box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
     }
     
     .status-card {
@@ -47,10 +47,42 @@ st.markdown("""
         border-radius: 12px;
         border-left: 5px solid #00E676;
         margin-bottom: 20px;
-        box-shadow: 0 4px 15px rgba(0, 230, 118, 0.15);
+        box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
     }
     </style>
 """, unsafe_allow_html=True)
+
+# Animated Electric Particle Trail Effect (JavaScript)
+components.html("""
+    <script>
+    document.addEventListener('mousemove', function(e) {
+        let spark = document.createElement('div');
+        spark.style.position = 'fixed';
+        spark.style.left = e.clientX + 'px';
+        spark.style.top = e.clientY + 'px';
+        spark.style.width = Math.random() * 4 + 2 + 'px';
+        spark.style.height = Math.random() * 10 + 5 + 'px';
+        spark.style.backgroundColor = Math.random() > 0.5 ? '#00D4FF' : '#FFFFFF';
+        spark.style.boxShadow = '0 0 10px #00D4FF, 0 0 20px #00D4FF';
+        spark.style.pointerEvents = 'none';
+        spark.style.borderRadius = '50%';
+        spark.style.zIndex = '999999';
+        spark.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        spark.style.transition = 'all 0.4s ease-out';
+        
+        window.parent.document.body.appendChild(spark);
+        
+        setTimeout(() => {
+            spark.style.opacity = '0';
+            spark.style.transform += ' scale(0.1)';
+        }, 50);
+        
+        setTimeout(() => {
+            spark.remove();
+        }, 400);
+    });
+    </script>
+""", height=0)
 
 # --------------------------------------------------
 # 2. MODEL TRAINING (CACHED FOR SPEED)
@@ -133,7 +165,6 @@ predicted_h2 = model.predict(new_condition)[0]
 
 st.sidebar.divider()
 
-# CSV Download Feature
 report_df = pd.DataFrame([{
     "Predicted_H2_mL": predicted_h2,
     "pH": user_ph,
@@ -152,7 +183,7 @@ st.sidebar.download_button(
 )
 
 # --------------------------------------------------
-# 5. MAIN DASHBOARD HEADER & HERO BADGE
+# 5. MAIN DASHBOARD HEADER
 # --------------------------------------------------
 st.title("⚡ MEC-AI: Microbial Electrolysis Cell Intelligence")
 
@@ -163,7 +194,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Metric Summary Row
 m1, m2, m3 = st.columns(3)
 m1.metric("Model R² Accuracy", f"{r2:.2f}")
 m2.metric("Mean Error Rate", f"{mae:.2f} mL")
@@ -176,7 +206,6 @@ st.divider()
 # --------------------------------------------------
 tab1, tab2, tab3 = st.tabs(["📊 Live Simulator & Gauge", "🎯 Optimization Matrix", "📑 Sensor Dataset"])
 
-# TAB 1: SIMULATOR & GAUGE CHART
 with tab1:
     col_left, col_right = st.columns([1, 1])
 
@@ -188,7 +217,6 @@ with tab1:
 
     with col_right:
         st.subheader("⏱️ Live Output Meter")
-        # Visual Gauge Chart
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=predicted_h2,
@@ -221,7 +249,6 @@ with tab1:
     fig_scatter.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
     st.plotly_chart(fig_scatter, use_container_width=True)
 
-# TAB 2: HEATMAP OPTIMIZATION
 with tab2:
     st.subheader("🎯 Optimization Engine Output")
     st.metric("Maximum Achievable H₂ Yield", f"{best_h2:.2f} mL")
@@ -231,7 +258,6 @@ with tab2:
     st.divider()
 
     st.subheader("🔥 2D Yield Surface (pH vs. Voltage)")
-    # Generate Heatmap Matrix Data
     ph_vec = np.linspace(6.0, 7.5, 20)
     v_vec = np.linspace(0.2, 0.8, 20)
     PH_grid, V_grid = np.meshgrid(ph_vec, v_vec)
@@ -257,7 +283,6 @@ with tab2:
     fig_heatmap.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
     st.plotly_chart(fig_heatmap, use_container_width=True)
 
-# TAB 3: DATASET EXPLORER
 with tab3:
     st.subheader("📑 Training Dataset & Sensor Logs")
     st.dataframe(df, use_container_width=True)
