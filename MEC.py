@@ -3,106 +3,18 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-import streamlit.components.v1 as components
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
 from xgboost import XGBRegressor
 
-# --------------------------------------------------
-# 1. PAGE CONFIG & ELECTRIC SPARK EFFECT
-# --------------------------------------------------
 st.set_page_config(
-    page_title="MEC-AI | Hydrogen Intelligence Platform",
+    page_title="MEC-AI Platform",
     page_icon="⚡",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
-# Dark theme & glowing UI card styling
-st.markdown("""
-    <style>
-    .main { background-color: #0E1117; }
-    
-    .stMetric {
-        background-color: #1E222D;
-        padding: 15px;
-        border-radius: 10px;
-        border-left: 4px solid #00D4FF;
-        box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
-    }
-    
-    .status-card {
-        background-color: #1E222D;
-        padding: 16px;
-        border-radius: 12px;
-        border-left: 5px solid #00E676;
-        margin-bottom: 20px;
-        box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# JavaScript for Original Cursor + Animated Electric Lightning Spark Trail
-components.html("""
-    <script>
-    document.addEventListener('mousemove', function(e) {
-        // Create 2-3 electric particles per mouse movement
-        for (let i = 0; i < 2; i++) {
-            let spark = document.createElement('div');
-            
-            // Randomize particle sizes and electric spark lengths
-            let size = Math.random() * 3 + 1;
-            let length = Math.random() * 12 + 6;
-            let isBlue = Math.random() > 0.3;
-            
-            spark.style.position = 'fixed';
-            spark.style.left = e.clientX + 'px';
-            spark.style.top = e.clientY + 'px';
-            spark.style.width = size + 'px';
-            spark.style.height = length + 'px';
-            
-            // Cyan blue & white voltage glow
-            spark.style.backgroundColor = isBlue ? '#00D4FF' : '#FFFFFF';
-            spark.style.boxShadow = isBlue ? 
-                '0 0 8px #00D4FF, 0 0 15px #00D4FF' : 
-                '0 0 10px #FFFFFF, 0 0 20px #00D4FF';
-            
-            spark.style.pointerEvents = 'none';
-            spark.style.borderRadius = '2px';
-            spark.style.zIndex = '999999';
-            
-            // Scatter particles outward at random angles like lightning arcs
-            let angle = Math.random() * 360;
-            let distance = Math.random() * 25 + 5;
-            let xOffset = Math.cos(angle) * distance;
-            let yOffset = Math.sin(angle) * distance;
-            
-            spark.style.transform = `rotate(${angle}deg)`;
-            spark.style.transition = 'all 0.35s cubic-bezier(0.1, 0.8, 0.3, 1)';
-            
-            window.parent.document.body.appendChild(spark);
-            
-            // Animate spark movement and fade-out
-            setTimeout(() => {
-                spark.style.opacity = '0';
-                spark.style.left = (e.clientX + xOffset) + 'px';
-                spark.style.top = (e.clientY + yOffset) + 'px';
-                spark.style.transform += ' scaleY(0.2)';
-            }, 20);
-            
-            // Clean up DOM elements
-            setTimeout(() => {
-                spark.remove();
-            }, 350);
-        }
-    });
-    </script>
-""", height=0)
-
-# --------------------------------------------------
-# 2. MODEL TRAINING (CACHED FOR SPEED)
-# --------------------------------------------------
+# Load data & train model
 @st.cache_resource
 def load_and_train_model():
     data = {
@@ -119,13 +31,7 @@ def load_and_train_model():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model = XGBRegressor(
-        n_estimators=100,
-        max_depth=3,
-        learning_rate=0.05,
-        objective="reg:squarederror",
-        random_state=42
-    )
+    model = XGBRegressor(n_estimators=100, max_depth=3, learning_rate=0.05, random_state=42)
     model.fit(X_train, y_train)
 
     predictions = model.predict(X_test)
@@ -136,5 +42,33 @@ def load_and_train_model():
 
 df, model, y_test, predictions, mae, r2 = load_and_train_model()
 
-# --------------------------------------------------
-# 3. OPTIMIZATION CALCULATION (CACHED
+# Title
+st.title("⚡ MEC-AI: Hydrogen Intelligence Platform")
+
+# Sidebar
+st.sidebar.header("Reactor Controls")
+user_ph = st.sidebar.slider("pH Level", 6.0, 7.5, 6.8, 0.1)
+user_temp = st.sidebar.slider("Reactor Temp (°C)", 25, 40, 35, 1)
+user_voltage = st.sidebar.slider("Applied Voltage (V)", 0.1, 1.0, 0.7, 0.05)
+user_cod = st.sidebar.number_input("Chemical Oxygen Demand (mg/L)", 400, 800, 550, 10)
+user_current = st.sidebar.slider("Current Intensity (A)", 0.1, 0.8, 0.46, 0.01)
+
+new_condition = pd.DataFrame({
+    "pH": [user_ph], "temperature": [user_temp], "voltage": [user_voltage],
+    "COD": [user_cod], "current": [user_current]
+})
+predicted_h2 = model.predict(new_condition)[0]
+
+# Display
+col1, col2 = st.columns(2)
+col1.metric("Predicted H2 Yield", f"{predicted_h2:.2f} mL")
+col2.metric("Model R² Score", f"{r2:.2f}")
+
+st.subheader("Predicted Output Meter")
+fig_gauge = go.Figure(go.Indicator(
+    mode="gauge+number",
+    value=predicted_h2,
+    title={'text': "Predicted H2 (mL)"},
+    gauge={'axis': {'range': [0, 200]}}
+))
+st.plotly_chart(fig_gauge, use_container_width=True)
