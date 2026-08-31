@@ -3,9 +3,11 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
 from xgboost import XGBRegressor
+
 
 # =========================================================
 # PAGE CONFIGURATION
@@ -17,6 +19,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
 
 # =========================================================
 # PREMIUM CSS
@@ -43,12 +46,12 @@ html, body, [class*="css"] {
 
 .hero-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 52px;
+    font-size: 48px;
     font-weight: 800;
     text-align: center;
     letter-spacing: 5px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 
     background: linear-gradient(
         90deg,
@@ -59,6 +62,7 @@ html, body, [class*="css"] {
     );
 
     background-size: 300%;
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
@@ -87,17 +91,22 @@ html, body, [class*="css"] {
     margin-bottom: 18px;
 }
 
-/* ONLINE STATUS */
+/* ONLINE */
 
 .status-online {
     display: inline-block;
     padding: 7px 18px;
     border-radius: 30px;
+
     background: rgba(0,245,212,0.10);
+
     border: 1px solid rgba(0,245,212,0.35);
+
     color: #00f5d4;
+
     font-weight: 700;
     font-size: 12px;
+
     box-shadow: 0 0 20px rgba(0,245,212,0.10);
 }
 
@@ -105,9 +114,13 @@ html, body, [class*="css"] {
 
 .card {
     background: rgba(17,24,39,0.78);
+
     border: 1px solid rgba(0,245,212,0.18);
+
     border-radius: 18px;
+
     padding: 22px;
+
     margin-bottom: 15px;
 
     box-shadow:
@@ -115,22 +128,30 @@ html, body, [class*="css"] {
         inset 0 1px 0 rgba(255,255,255,0.03);
 
     backdrop-filter: blur(12px);
+
     transition: 0.25s;
 }
 
 .card:hover {
-    border-color: rgba(0,245,212,0.45);
-    box-shadow: 0 10px 35px rgba(0,245,212,0.08);
+    border-color: rgba(0,245,212,0.50);
+
+    box-shadow:
+        0 10px 35px rgba(0,245,212,0.10);
 }
 
-/* SECTION TITLES */
+/* SECTION */
 
 .section-title {
     font-family: 'Orbitron', sans-serif;
+
     color: #00f5d4;
+
     font-size: 18px;
+
     font-weight: 700;
+
     letter-spacing: 1px;
+
     margin-bottom: 12px;
 }
 
@@ -138,7 +159,9 @@ html, body, [class*="css"] {
 
 .ai-brain {
     text-align: center;
+
     padding: 28px;
+
     border-radius: 22px;
 
     background:
@@ -162,7 +185,7 @@ html, body, [class*="css"] {
     }
 
     50% {
-        box-shadow: 0 0 40px rgba(0,245,212,0.15);
+        box-shadow: 0 0 45px rgba(0,245,212,0.18);
     }
 
     100% {
@@ -176,8 +199,11 @@ html, body, [class*="css"] {
 
 .brain-title {
     font-family: 'Orbitron', sans-serif;
+
     font-size: 23px;
+
     color: white;
+
     margin-top: 7px;
 }
 
@@ -190,55 +216,66 @@ html, body, [class*="css"] {
 
 [data-testid="stMetric"] {
     background: rgba(17,24,39,0.75);
-    border: 1px solid rgba(0,245,212,0.12);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
     padding: 16px;
+
     border-radius: 15px;
 }
 
-/* BUTTONS */
+/* BUTTON */
 
 .stButton > button {
+
     width: 100%;
+
     border-radius: 12px;
+
     border: 1px solid rgba(0,245,212,0.35);
 
-    background: linear-gradient(
-        135deg,
-        rgba(0,245,212,0.15),
-        rgba(0,187,249,0.10)
-    );
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,245,212,0.15),
+            rgba(0,187,249,0.10)
+        );
 
     color: white;
+
     font-weight: 700;
+
     padding: 12px;
+
     transition: 0.25s;
 }
 
 .stButton > button:hover {
+
     border-color: #00f5d4;
-    box-shadow: 0 0 20px rgba(0,245,212,0.18);
+
+    box-shadow:
+        0 0 20px rgba(0,245,212,0.18);
+
     transform: translateY(-2px);
 }
 
 /* SIDEBAR */
 
 section[data-testid="stSidebar"] {
-    background: linear-gradient(
-        180deg,
-        #090e1a,
-        #070b14
-    );
 
-    border-right: 1px solid rgba(0,245,212,0.10);
+    background:
+        linear-gradient(
+            180deg,
+            #090e1a,
+            #070b14
+        );
+
+    border-right:
+        1px solid rgba(0,245,212,0.10);
 }
 
-/* SLIDERS */
-
-.stSlider > div > div > div > div {
-    background-color: #00f5d4;
-}
-
-/* HIDE STREAMLIT DEFAULTS */
+/* HIDE STREAMLIT MENU */
 
 #MainMenu {
     visibility: hidden;
@@ -252,46 +289,22 @@ header {
     visibility: hidden;
 }
 
-/* MOBILE */
 
-@media (max-width: 768px) {
-
-    .hero-title {
-        font-size: 34px;
-        letter-spacing: 3px;
-    }
-
-    .hero-subtitle {
-        font-size: 11px;
-    }
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# =========================================================
-# ELECTRIC GLITTER CURSOR
-# =========================================================
-
-st.markdown("""
-<style>
+/* GLITTER */
 
 .electric-particle {
+
     position: fixed;
+
     pointer-events: none;
+
     z-index: 999999;
 
     width: 5px;
+
     height: 5px;
 
     border-radius: 50%;
-
-    background: #00f5d4;
-
-    box-shadow:
-        0 0 6px #00f5d4,
-        0 0 14px #00bbf9,
-        0 0 25px #00bbf9;
 
     animation: electricFade 0.8s ease-out forwards;
 }
@@ -300,27 +313,43 @@ st.markdown("""
 
     0% {
         opacity: 1;
-        transform: translate(0,0) scale(1);
+
+        transform:
+            translate(0,0)
+            scale(1);
     }
 
-    35% {
+    40% {
         opacity: 0.9;
-        transform: scale(1.6);
+
+        transform:
+            scale(1.6);
     }
 
     100% {
         opacity: 0;
+
         transform:
-            translate(var(--move-x), var(--move-y))
+            translate(
+                var(--move-x),
+                var(--move-y)
+            )
             scale(0);
     }
 }
 
 </style>
+""", unsafe_allow_html=True)
 
+
+# =========================================================
+# CURSOR GLITTER EFFECT
+# =========================================================
+
+st.markdown("""
 <script>
 
-(function() {
+(function () {
 
     let lastX = 0;
     let lastY = 0;
@@ -358,10 +387,10 @@ st.markdown("""
         particle.style.top = y + "px";
 
         const moveX =
-            (Math.random() - 0.5) * 60;
+            (Math.random() - 0.5) * 70;
 
         const moveY =
-            (Math.random() - 0.5) * 60;
+            (Math.random() - 0.5) * 70;
 
         particle.style.setProperty(
             "--move-x",
@@ -375,7 +404,7 @@ st.markdown("""
 
         document.body.appendChild(particle);
 
-        setTimeout(function() {
+        setTimeout(function () {
             particle.remove();
         }, 850);
     }
@@ -406,10 +435,10 @@ st.markdown("""
 
                 createParticle(
                     event.clientX +
-                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 12,
 
                     event.clientY +
-                    (Math.random() - 0.5) * 10
+                    (Math.random() - 0.5) * 12
                 );
             }
 
@@ -417,6 +446,7 @@ st.markdown("""
             lastY = event.clientY;
             lastTime = now;
         }
+
     });
 
 })();
@@ -424,11 +454,13 @@ st.markdown("""
 </script>
 """, unsafe_allow_html=True)
 
+
 # =========================================================
 # TRAINING DATA
 # =========================================================
 
 DATA = {
+
     "pH": [
         6.2, 6.4, 6.5, 6.6, 6.7,
         6.8, 6.9, 7.0, 7.1, 7.2,
@@ -472,6 +504,7 @@ DATA = {
     ]
 }
 
+
 # =========================================================
 # TRAIN AI MODEL
 # =========================================================
@@ -509,7 +542,10 @@ def train_model():
         random_state=42
     )
 
-    model.fit(X_train, y_train)
+    model.fit(
+        X_train,
+        y_train
+    )
 
     predictions = model.predict(X_test)
 
@@ -524,14 +560,18 @@ def train_model():
     )
 
     validation = pd.DataFrame({
+
         "Actual H₂": y_test.values,
+
         "Predicted H₂": predictions
+
     })
 
     return df, model, mae, r2, validation
 
 
 df, model, mae, r2, validation = train_model()
+
 
 # =========================================================
 # HEADER
@@ -560,11 +600,13 @@ st.markdown(
 
 st.write("")
 
+
 # =========================================================
 # SIDEBAR
 # =========================================================
 
 st.sidebar.markdown("## ⚡ MEC-AI CONTROL")
+
 st.sidebar.markdown("### 🧪 Reactor Parameters")
 
 user_ph = st.sidebar.slider(
@@ -593,10 +635,10 @@ user_voltage = st.sidebar.slider(
 
 user_cod = st.sidebar.number_input(
     "COD (mg/L)",
-    min_value=400,
-    max_value=800,
-    value=550,
-    step=10
+    400,
+    800,
+    550,
+    10
 )
 
 user_current = st.sidebar.slider(
@@ -620,25 +662,33 @@ else:
     st.sidebar.info("Hardware Mode Selected")
 
 st.sidebar.caption(
-    "Final prototype can replace these manual "
-    "controls with ESP32 sensor data."
+    "Final prototype can replace these manual inputs "
+    "with ESP32 sensor data."
 )
+
 
 # =========================================================
 # AI PREDICTION
 # =========================================================
 
 new_condition = pd.DataFrame({
+
     "pH": [user_ph],
+
     "temperature": [user_temp],
+
     "voltage": [user_voltage],
+
     "COD": [user_cod],
+
     "current": [user_current]
+
 })
 
 predicted_h2 = float(
     model.predict(new_condition)[0]
 )
+
 
 # =========================================================
 # REACTOR STATUS
@@ -671,6 +721,7 @@ def get_status():
 
 status = get_status()
 
+
 # =========================================================
 # AI BRAIN
 # =========================================================
@@ -678,23 +729,24 @@ status = get_status()
 st.markdown("""
 <div class="ai-brain">
 
-<div class="brain-icon">
-🧠
-</div>
+    <div class="brain-icon">
+        🧠
+    </div>
 
-<div class="brain-title">
-MEC-AI BRAIN
-</div>
+    <div class="brain-title">
+        MEC-AI BRAIN
+    </div>
 
-<div class="brain-text">
-XGBoost-powered hydrogen prediction,
-reactor intelligence and optimization
-</div>
+    <div class="brain-text">
+        XGBoost-powered hydrogen prediction,
+        reactor intelligence and optimization
+    </div>
 
 </div>
 """, unsafe_allow_html=True)
 
 st.write("")
+
 
 # =========================================================
 # TOP METRICS
@@ -722,6 +774,7 @@ col4.metric(
     status
 )
 
+
 # =========================================================
 # TABS
 # =========================================================
@@ -734,8 +787,9 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📄 Report"
 ])
 
+
 # =========================================================
-# TAB 1 - REACTOR
+# TAB 1 — REACTOR
 # =========================================================
 
 with tab1:
@@ -759,6 +813,7 @@ with tab1:
         st.subheader("🧪 Reactor Conditions")
 
         parameters = pd.DataFrame({
+
             "Parameter": [
                 "pH",
                 "Temperature",
@@ -774,6 +829,7 @@ with tab1:
                 f"{user_cod} mg/L",
                 f"{user_current:.2f} A"
             ]
+
         })
 
         st.dataframe(
@@ -804,7 +860,9 @@ with tab1:
 
                 number={
                     "suffix": " mL",
-                    "font": {"size": 42}
+                    "font": {
+                        "size": 42
+                    }
                 },
 
                 title={
@@ -824,11 +882,9 @@ with tab1:
                         {
                             "range": [0, 70]
                         },
-
                         {
                             "range": [70, 130]
                         },
-
                         {
                             "range": [130, 200]
                         }
@@ -839,14 +895,19 @@ with tab1:
 
         gauge.update_layout(
             height=300,
+
             margin=dict(
                 l=20,
                 r=20,
                 t=60,
                 b=20
             ),
+
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="white")
+
+            font=dict(
+                color="white"
+            )
         )
 
         st.plotly_chart(
@@ -859,8 +920,9 @@ with tab1:
             unsafe_allow_html=True
         )
 
+
 # =========================================================
-# TAB 2 - AI OPTIMIZATION
+# TAB 2 — AI OPTIMIZATION
 # =========================================================
 
 with tab2:
@@ -873,18 +935,42 @@ with tab2:
     )
 
     st.write(
-        "The AI searches different reactor conditions "
-        "and identifies the combination with the highest "
-        "predicted hydrogen production."
+        "The AI searches through different reactor conditions "
+        "to find a combination with high predicted hydrogen production."
     )
 
     if st.button("🚀 RUN AI OPTIMIZATION"):
 
-        ph_values = np.arange(6.3, 7.21, 0.1)
-        temp_values = np.arange(30, 38, 2)
-        voltage_values = np.arange(0.5, 0.81, 0.05)
+        best_h2 = -999
+        best = None
 
-        candidates = []
+        ph_values = np.arange(
+            6.3,
+            7.2,
+            0.1
+        )
+
+        temp_values = range(
+            30,
+            38,
+            2
+        )
+
+        voltage_values = np.arange(
+            0.5,
+            0.81,
+            0.05
+        )
+
+        total = (
+            len(ph_values)
+            * len(temp_values)
+            * len(voltage_values)
+        )
+
+        progress = st.progress(0)
+
+        counter = 0
 
         for ph in ph_values:
 
@@ -892,47 +978,52 @@ with tab2:
 
                 for voltage in voltage_values:
 
-                    candidates.append({
-                        "pH": round(ph, 2),
-                        "temperature": temp,
-                        "voltage": round(voltage, 2),
-                        "COD": user_cod,
-                        "current": user_current
+                    test_input = pd.DataFrame({
+
+                        "pH": [round(ph, 2)],
+
+                        "temperature": [temp],
+
+                        "voltage": [round(voltage, 2)],
+
+                        "COD": [user_cod],
+
+                        "current": [user_current]
+
                     })
 
-        candidate_df = pd.DataFrame(candidates)
+                    prediction = float(
+                        model.predict(test_input)[0]
+                    )
 
-        progress = st.progress(0)
+                    if prediction > best_h2:
 
-        predictions_opt = model.predict(
-            candidate_df[
-                [
-                    "pH",
-                    "temperature",
-                    "voltage",
-                    "COD",
-                    "current"
-                ]
-            ]
-        )
+                        best_h2 = prediction
 
-        progress.progress(100)
+                        best = {
 
-        best_index = np.argmax(predictions_opt)
+                            "pH": round(ph, 2),
 
-        best_h2 = float(
-            predictions_opt[best_index]
-        )
+                            "Temperature": temp,
 
-        best = candidate_df.iloc[
-            best_index
-        ].to_dict()
+                            "Voltage": round(voltage, 2),
+
+                            "COD": user_cod,
+
+                            "Current": user_current
+                        }
+
+                    counter += 1
+
+                    progress.progress(
+                        min(counter / total, 1.0)
+                    )
 
         st.success(
             "🎯 AI Optimization Completed!"
         )
 
-        c1, c2, c3 = st.columns(3)
+        c1, c2 = st.columns(2)
 
         c1.metric(
             "Current Prediction",
@@ -944,14 +1035,11 @@ with tab2:
             f"{best_h2:.1f} mL"
         )
 
-        improvement = (
-            (best_h2 - predicted_h2)
-            / max(abs(predicted_h2), 0.01)
-        ) * 100
+        improvement = best_h2 - predicted_h2
 
-        c3.metric(
-            "Potential Improvement",
-            f"{improvement:.1f}%"
+        st.metric(
+            "🚀 Potential Improvement",
+            f"{improvement:+.1f} mL"
         )
 
         st.subheader(
@@ -959,6 +1047,7 @@ with tab2:
         )
 
         recommended = pd.DataFrame({
+
             "Parameter": [
                 "pH",
                 "Temperature",
@@ -968,29 +1057,26 @@ with tab2:
             ],
 
             "Recommended": [
-                f"{best['pH']:.2f}",
-                f"{best['temperature']:.0f} °C",
-                f"{best['voltage']:.2f} V",
-                f"{best['COD']:.0f} mg/L",
-                f"{best['current']:.2f} A"
+                best["pH"],
+                f'{best["Temperature"]} °C',
+                f'{best["Voltage"]} V',
+                f'{best["COD"]} mg/L',
+                f'{best["Current"]:.2f} A'
             ]
+
         })
 
-        st.dataframe(
-            recommended,
-            hide_index=True,
-            use_container_width=True
-        )
+        st.table(recommended)
 
         st.warning(
-            "⚠️ These recommendations are generated "
-            "from the demonstration model and must be "
-            "experimentally validated before being applied "
-            "to a physical MEC reactor."
+            "⚠️ These are model-based recommendations. "
+            "They must be experimentally validated before "
+            "being applied to a physical MEC reactor."
         )
 
+
 # =========================================================
-# TAB 3 - ANALYTICS
+# TAB 3 — ANALYTICS
 # =========================================================
 
 with tab3:
@@ -1006,7 +1092,9 @@ with tab3:
 
     with col1:
 
-        st.subheader("🎯 Actual vs Predicted H₂")
+        st.subheader(
+            "🎯 Actual vs Predicted H₂"
+        )
 
         fig = px.scatter(
             validation,
@@ -1047,7 +1135,9 @@ with tab3:
 
     with col2:
 
-        st.subheader("🧠 Feature Importance")
+        st.subheader(
+            "🧠 Feature Importance"
+        )
 
         features = [
             "pH",
@@ -1060,8 +1150,11 @@ with tab3:
         importance = model.feature_importances_
 
         feature_df = pd.DataFrame({
+
             "Parameter": features,
+
             "Importance": importance
+
         }).sort_values(
             "Importance",
             ascending=True
@@ -1086,16 +1179,9 @@ with tab3:
             use_container_width=True
         )
 
-    st.subheader("📋 Training Dataset")
-
-    st.dataframe(
-        df,
-        hide_index=True,
-        use_container_width=True
-    )
 
 # =========================================================
-# TAB 4 - INTELLIGENCE
+# TAB 4 — INTELLIGENCE
 # =========================================================
 
 with tab4:
@@ -1109,40 +1195,56 @@ with tab4:
 
     alerts = []
 
-    # pH
     if user_ph < 6.5:
-        alerts.append("🔴 pH is below the target range.")
-    elif user_ph > 7.0:
-        alerts.append("🟡 pH is above the target range.")
-    else:
-        alerts.append("🟢 pH is within the target range.")
 
-    # Temperature
+        alerts.append(
+            "🔴 pH is below the target range."
+        )
+
+    elif user_ph > 7.0:
+
+        alerts.append(
+            "🟡 pH is above the target range."
+        )
+
+    else:
+
+        alerts.append(
+            "🟢 pH is within the target range."
+        )
+
     if 30 <= user_temp <= 37:
+
         alerts.append(
             "🟢 Temperature is within the selected range."
         )
+
     else:
+
         alerts.append(
             "🟡 Temperature is outside the selected range."
         )
 
-    # Voltage
     if 0.5 <= user_voltage <= 0.8:
+
         alerts.append(
             "🟢 Applied voltage is within the selected range."
         )
+
     else:
+
         alerts.append(
             "🟡 Applied voltage should be reviewed."
         )
 
-    # Current
     if 0.35 <= user_current <= 0.55:
+
         alerts.append(
             "🟢 Current is within the selected range."
         )
+
     else:
+
         alerts.append(
             "🟡 Current is outside the selected range."
         )
@@ -1152,21 +1254,25 @@ with tab4:
         st.markdown(
             f"""
             <div class="card">
-            {alert}
+                {alert}
             </div>
             """,
             unsafe_allow_html=True
         )
 
-    st.subheader("🧠 AI Summary")
+    st.subheader(
+        "🧠 AI Summary"
+    )
 
     st.info(
         f"The AI predicts approximately "
-        f"**{predicted_h2:.1f} mL H₂** under the current "
-        f"conditions. Reactor status: **{status}**."
+        f"**{predicted_h2:.1f} mL H₂** under the current conditions. "
+        f"Reactor status: **{status}**."
     )
 
-    st.subheader("🔌 Hardware Integration")
+    st.subheader(
+        "🔌 Hardware Integration"
+    )
 
     st.code("""
 MEC REACTOR
@@ -1197,8 +1303,9 @@ MEC REACTOR
  Optimization
 """, language="text")
 
+
 # =========================================================
-# TAB 5 - REPORT
+# TAB 5 — REPORT
 # =========================================================
 
 with tab5:
@@ -1211,6 +1318,7 @@ with tab5:
     )
 
     report = pd.DataFrame({
+
         "Parameter": [
             "pH",
             "Temperature (°C)",
@@ -1234,6 +1342,7 @@ with tab5:
             round(mae, 2),
             status
         ]
+
     })
 
     st.dataframe(
@@ -1242,16 +1351,17 @@ with tab5:
         use_container_width=True
     )
 
-    csv_data = report.to_csv(
+    csv = report.to_csv(
         index=False
     ).encode("utf-8")
 
     st.download_button(
         label="⬇️ DOWNLOAD MEC-AI REPORT",
-        data=csv_data,
+        data=csv,
         file_name="MEC_AI_Report.csv",
         mime="text/csv"
     )
+
 
 # =========================================================
 # FOOTER
@@ -1268,21 +1378,21 @@ st.markdown(
         padding:10px;
     ">
 
-    ⚡ <b>MEC-AI</b>
-    • Microbial Electrolysis Cell Intelligence Platform
+        ⚡ <b>MEC-AI</b>
+        • Microbial Electrolysis Cell Intelligence Platform
 
-    <br>
+        <br>
 
-    🧠 AI Prediction
-    • ⚡ Energy Intelligence
-    • 🧪 Reactor Monitoring
-    • 🎯 Optimization
+        🧠 AI Prediction
+        • ⚡ Energy Intelligence
+        • 🧪 Reactor Monitoring
+        • 🎯 Optimization
 
-    <br><br>
+        <br><br>
 
-    <span style="color:#00f5d4;">
-    ESP32 + Sensors + AI = Smart Hydrogen Reactor
-    </span>
+        <span style="color:#00f5d4;">
+        ESP32 + Sensors + AI = Smart Hydrogen Reactor
+        </span>
 
     </div>
     """,
