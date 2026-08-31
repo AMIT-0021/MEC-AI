@@ -9,9 +9,9 @@ from sklearn.metrics import mean_absolute_error, r2_score
 from xgboost import XGBRegressor
 
 
-# =========================================================
+# ============================================================
 # PAGE CONFIGURATION
-# =========================================================
+# ============================================================
 
 st.set_page_config(
     page_title="MEC-AI | Hydrogen Intelligence",
@@ -21,446 +21,462 @@ st.set_page_config(
 )
 
 
-# =========================================================
-# PREMIUM CSS
-# =========================================================
+# ============================================================
+# PREMIUM UI
+# ============================================================
 
-st.markdown("""
-<style>
+st.markdown(
+    """
+    <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
-
-.stApp {
-    background:
-        radial-gradient(circle at 10% 10%, rgba(0,245,212,0.08), transparent 30%),
-        radial-gradient(circle at 90% 20%, rgba(100,80,255,0.08), transparent 30%),
-        radial-gradient(circle at 50% 90%, rgba(0,180,255,0.06), transparent 35%),
-        #070b14;
-}
-
-/* HERO */
-
-.hero-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 48px;
-    font-weight: 800;
-    text-align: center;
-    letter-spacing: 5px;
-    margin-top: 5px;
-    margin-bottom: 0px;
-
-    background: linear-gradient(
-        90deg,
-        #00f5d4,
-        #00bbf9,
-        #9b5de5,
-        #00f5d4
-    );
-
-    background-size: 300%;
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    animation: gradientMove 6s ease infinite;
-}
-
-@keyframes gradientMove {
-    0% {
-        background-position: 0%;
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
     }
 
-    50% {
-        background-position: 100%;
+    .stApp {
+        background:
+            radial-gradient(circle at 10% 10%,
+                rgba(0,245,212,0.10),
+                transparent 30%),
+            radial-gradient(circle at 90% 20%,
+                rgba(100,80,255,0.10),
+                transparent 30%),
+            radial-gradient(circle at 50% 90%,
+                rgba(0,180,255,0.08),
+                transparent 35%),
+            #070b14;
     }
 
-    100% {
-        background-position: 0%;
-    }
-}
+    /* HERO */
 
-.hero-subtitle {
-    text-align: center;
-    color: #9ba8c7;
-    font-size: 14px;
-    letter-spacing: 2px;
-    margin-bottom: 18px;
-}
+    .hero-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 52px;
+        font-weight: 800;
+        text-align: center;
+        letter-spacing: 5px;
+        margin-top: 10px;
+        margin-bottom: 5px;
 
-/* ONLINE */
-
-.status-online {
-    display: inline-block;
-    padding: 7px 18px;
-    border-radius: 30px;
-
-    background: rgba(0,245,212,0.10);
-
-    border: 1px solid rgba(0,245,212,0.35);
-
-    color: #00f5d4;
-
-    font-weight: 700;
-    font-size: 12px;
-
-    box-shadow: 0 0 20px rgba(0,245,212,0.10);
-}
-
-/* CARDS */
-
-.card {
-    background: rgba(17,24,39,0.78);
-
-    border: 1px solid rgba(0,245,212,0.18);
-
-    border-radius: 18px;
-
-    padding: 22px;
-
-    margin-bottom: 15px;
-
-    box-shadow:
-        0 8px 30px rgba(0,0,0,0.30),
-        inset 0 1px 0 rgba(255,255,255,0.03);
-
-    backdrop-filter: blur(12px);
-
-    transition: 0.25s;
-}
-
-.card:hover {
-    border-color: rgba(0,245,212,0.50);
-
-    box-shadow:
-        0 10px 35px rgba(0,245,212,0.10);
-}
-
-/* SECTION */
-
-.section-title {
-    font-family: 'Orbitron', sans-serif;
-
-    color: #00f5d4;
-
-    font-size: 18px;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 12px;
-}
-
-/* AI BRAIN */
-
-.ai-brain {
-    text-align: center;
-
-    padding: 28px;
-
-    border-radius: 22px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0,245,212,0.14),
-            rgba(17,24,39,0.90) 65%
+        background: linear-gradient(
+            90deg,
+            #00f5d4,
+            #00bbf9,
+            #9b5de5,
+            #00f5d4
         );
 
-    border: 1px solid rgba(0,245,212,0.28);
+        background-size: 300%;
 
-    box-shadow: 0 0 40px rgba(0,245,212,0.08);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
 
-    animation: brainGlow 3s ease-in-out infinite;
-}
-
-@keyframes brainGlow {
-
-    0% {
-        box-shadow: 0 0 15px rgba(0,245,212,0.05);
+        animation: gradientMove 6s ease infinite;
     }
 
-    50% {
-        box-shadow: 0 0 45px rgba(0,245,212,0.18);
-    }
-
-    100% {
-        box-shadow: 0 0 15px rgba(0,245,212,0.05);
-    }
-}
-
-.brain-icon {
-    font-size: 55px;
-}
-
-.brain-title {
-    font-family: 'Orbitron', sans-serif;
-
-    font-size: 23px;
-
-    color: white;
-
-    margin-top: 7px;
-}
-
-.brain-text {
-    color: #9ba8c7;
-    font-size: 14px;
-}
-
-/* METRICS */
-
-[data-testid="stMetric"] {
-    background: rgba(17,24,39,0.75);
-
-    border: 1px solid rgba(255,255,255,0.08);
-
-    padding: 16px;
-
-    border-radius: 15px;
-}
-
-/* BUTTON */
-
-.stButton > button {
-
-    width: 100%;
-
-    border-radius: 12px;
-
-    border: 1px solid rgba(0,245,212,0.35);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0,245,212,0.15),
-            rgba(0,187,249,0.10)
-        );
-
-    color: white;
-
-    font-weight: 700;
-
-    padding: 12px;
-
-    transition: 0.25s;
-}
-
-.stButton > button:hover {
-
-    border-color: #00f5d4;
-
-    box-shadow:
-        0 0 20px rgba(0,245,212,0.18);
-
-    transform: translateY(-2px);
-}
-
-/* SIDEBAR */
-
-section[data-testid="stSidebar"] {
-
-    background:
-        linear-gradient(
-            180deg,
-            #090e1a,
-            #070b14
-        );
-
-    border-right:
-        1px solid rgba(0,245,212,0.10);
-}
-
-/* HIDE STREAMLIT MENU */
-
-#MainMenu {
-    visibility: hidden;
-}
-
-footer {
-    visibility: hidden;
-}
-
-header {
-    visibility: hidden;
-}
-
-
-/* GLITTER */
-
-.electric-particle {
-
-    position: fixed;
-
-    pointer-events: none;
-
-    z-index: 999999;
-
-    width: 5px;
-
-    height: 5px;
-
-    border-radius: 50%;
-
-    animation: electricFade 0.8s ease-out forwards;
-}
-
-@keyframes electricFade {
-
-    0% {
-        opacity: 1;
-
-        transform:
-            translate(0,0)
-            scale(1);
-    }
-
-    40% {
-        opacity: 0.9;
-
-        transform:
-            scale(1.6);
-    }
-
-    100% {
-        opacity: 0;
-
-        transform:
-            translate(
-                var(--move-x),
-                var(--move-y)
-            )
-            scale(0);
-    }
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-# =========================================================
-# CURSOR GLITTER EFFECT
-# =========================================================
-
-st.markdown("""
-<script>
-
-(function () {
-
-    let lastX = 0;
-    let lastY = 0;
-    let lastTime = 0;
-
-    const colors = [
-        "#00f5d4",
-        "#00bbf9",
-        "#ffffff",
-        "#9b5de5"
-    ];
-
-    function createParticle(x, y) {
-
-        const particle = document.createElement("div");
-
-        particle.className = "electric-particle";
-
-        const size = Math.random() * 6 + 3;
-
-        particle.style.width = size + "px";
-        particle.style.height = size + "px";
-
-        const color =
-            colors[Math.floor(Math.random() * colors.length)];
-
-        particle.style.background = color;
-
-        particle.style.boxShadow =
-            "0 0 6px " + color +
-            ", 0 0 14px " + color +
-            ", 0 0 25px " + color;
-
-        particle.style.left = x + "px";
-        particle.style.top = y + "px";
-
-        const moveX =
-            (Math.random() - 0.5) * 70;
-
-        const moveY =
-            (Math.random() - 0.5) * 70;
-
-        particle.style.setProperty(
-            "--move-x",
-            moveX + "px"
-        );
-
-        particle.style.setProperty(
-            "--move-y",
-            moveY + "px"
-        );
-
-        document.body.appendChild(particle);
-
-        setTimeout(function () {
-            particle.remove();
-        }, 850);
-    }
-
-    document.addEventListener("mousemove", function(event) {
-
-        const now = Date.now();
-
-        const dx = event.clientX - lastX;
-        const dy = event.clientY - lastY;
-
-        const distance =
-            Math.sqrt(dx * dx + dy * dy);
-
-        const speed =
-            Math.min(distance / 8, 5);
-
-        if (now - lastTime > 25) {
-
-            const particleCount =
-                Math.max(1, Math.floor(speed));
-
-            for (
-                let i = 0;
-                i < particleCount;
-                i++
-            ) {
-
-                createParticle(
-                    event.clientX +
-                    (Math.random() - 0.5) * 12,
-
-                    event.clientY +
-                    (Math.random() - 0.5) * 12
-                );
-            }
-
-            lastX = event.clientX;
-            lastY = event.clientY;
-            lastTime = now;
+    @keyframes gradientMove {
+        0% {
+            background-position: 0%;
         }
 
-    });
+        50% {
+            background-position: 100%;
+        }
 
-})();
+        100% {
+            background-position: 0%;
+        }
+    }
 
-</script>
-""", unsafe_allow_html=True)
+    .hero-subtitle {
+        text-align: center;
+        color: #9ba8c7;
+        font-size: 14px;
+        letter-spacing: 2px;
+        margin-bottom: 18px;
+    }
+
+    .status-online {
+        display: inline-block;
+        padding: 8px 18px;
+        border-radius: 30px;
+
+        background: rgba(0,245,212,0.10);
+        border: 1px solid rgba(0,245,212,0.40);
+
+        color: #00f5d4;
+        font-weight: 700;
+        font-size: 12px;
+
+        box-shadow:
+            0 0 15px rgba(0,245,212,0.12);
+    }
+
+    /* GLASS CARDS */
+
+    .card {
+        background: rgba(17,24,39,0.78);
+        border: 1px solid rgba(0,245,212,0.18);
+        border-radius: 18px;
+
+        padding: 22px;
+        margin-bottom: 18px;
+
+        box-shadow:
+            0 8px 30px rgba(0,0,0,0.30),
+            inset 0 1px 0 rgba(255,255,255,0.03);
+
+        backdrop-filter: blur(12px);
+
+        transition: 0.25s;
+    }
+
+    .card:hover {
+        border-color: rgba(0,245,212,0.50);
+
+        box-shadow:
+            0 10px 35px rgba(0,245,212,0.10);
+    }
+
+    .section-title {
+        font-family: 'Orbitron', sans-serif;
+        color: #00f5d4;
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    /* AI BRAIN */
+
+    .ai-brain {
+        text-align: center;
+
+        padding: 28px;
+
+        border-radius: 22px;
+
+        background:
+            radial-gradient(
+                circle at center,
+                rgba(0,245,212,0.15),
+                rgba(17,24,39,0.92) 65%
+            );
+
+        border: 1px solid rgba(0,245,212,0.30);
+
+        box-shadow:
+            0 0 40px rgba(0,245,212,0.08);
+
+        animation: brainGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes brainGlow {
+
+        0% {
+            box-shadow:
+                0 0 15px rgba(0,245,212,0.05);
+        }
+
+        50% {
+            box-shadow:
+                0 0 45px rgba(0,245,212,0.18);
+        }
+
+        100% {
+            box-shadow:
+                0 0 15px rgba(0,245,212,0.05);
+        }
+    }
+
+    .brain-icon {
+        font-size: 55px;
+    }
+
+    .brain-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 24px;
+        color: white;
+        margin-top: 8px;
+    }
+
+    .brain-text {
+        color: #9ba8c7;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    /* METRICS */
+
+    [data-testid="stMetric"] {
+        background: rgba(17,24,39,0.75);
+
+        border: 1px solid rgba(255,255,255,0.08);
+
+        padding: 16px;
+
+        border-radius: 15px;
+
+        box-shadow:
+            0 5px 20px rgba(0,0,0,0.20);
+    }
+
+    /* BUTTONS */
+
+    .stButton > button {
+        width: 100%;
+
+        border-radius: 12px;
+
+        border: 1px solid rgba(0,245,212,0.35);
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(0,245,212,0.15),
+                rgba(0,187,249,0.10)
+            );
+
+        color: white;
+
+        font-weight: 700;
+
+        padding: 12px;
+
+        transition: 0.25s;
+    }
+
+    .stButton > button:hover {
+        border-color: #00f5d4;
+
+        box-shadow:
+            0 0 20px rgba(0,245,212,0.20);
+
+        transform: translateY(-2px);
+    }
+
+    /* SIDEBAR */
+
+    section[data-testid="stSidebar"] {
+        background:
+            linear-gradient(
+                180deg,
+                #090e1a,
+                #070b14
+            );
+
+        border-right:
+            1px solid rgba(0,245,212,0.12);
+    }
+
+    /* HIDE STREAMLIT UI */
+
+    #MainMenu {
+        visibility: hidden;
+    }
+
+    footer {
+        visibility: hidden;
+    }
+
+    header {
+        visibility: hidden;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
-# =========================================================
+# ============================================================
+# ELECTRIC GLITTER CURSOR
+# ============================================================
+
+st.markdown(
+    """
+    <style>
+
+    .electric-particle {
+        position: fixed;
+        pointer-events: none;
+        z-index: 999999;
+
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+
+        background: #00f5d4;
+
+        box-shadow:
+            0 0 6px #00f5d4,
+            0 0 14px #00bbf9,
+            0 0 25px #00bbf9;
+
+        animation:
+            electricFade 0.8s ease-out forwards;
+    }
+
+    @keyframes electricFade {
+
+        0% {
+            opacity: 1;
+            transform: translate(0,0) scale(1);
+        }
+
+        40% {
+            opacity: 0.8;
+            transform: scale(1.6);
+        }
+
+        100% {
+            opacity: 0;
+            transform:
+                translate(var(--move-x), var(--move-y))
+                scale(0);
+        }
+    }
+
+    </style>
+
+    <script>
+
+    (function () {
+
+        let lastX = 0;
+        let lastY = 0;
+        let lastTime = 0;
+
+        const colors = [
+            "#00f5d4",
+            "#00bbf9",
+            "#ffffff",
+            "#9b5de5"
+        ];
+
+        function createParticle(x, y) {
+
+            const particle = document.createElement("div");
+
+            particle.className = "electric-particle";
+
+            const size = Math.random() * 6 + 3;
+
+            particle.style.width = size + "px";
+            particle.style.height = size + "px";
+
+            const color =
+                colors[
+                    Math.floor(
+                        Math.random() * colors.length
+                    )
+                ];
+
+            particle.style.background = color;
+
+            particle.style.boxShadow =
+                "0 0 6px " + color +
+                ", 0 0 14px " + color +
+                ", 0 0 25px " + color;
+
+            particle.style.left = x + "px";
+            particle.style.top = y + "px";
+
+            const moveX =
+                (Math.random() - 0.5) * 70;
+
+            const moveY =
+                (Math.random() - 0.5) * 70;
+
+            particle.style.setProperty(
+                "--move-x",
+                moveX + "px"
+            );
+
+            particle.style.setProperty(
+                "--move-y",
+                moveY + "px"
+            );
+
+            document.body.appendChild(particle);
+
+            setTimeout(
+                function () {
+                    particle.remove();
+                },
+                850
+            );
+        }
+
+        document.addEventListener(
+            "mousemove",
+            function (event) {
+
+                const now = Date.now();
+
+                const dx =
+                    event.clientX - lastX;
+
+                const dy =
+                    event.clientY - lastY;
+
+                const distance =
+                    Math.sqrt(
+                        dx * dx + dy * dy
+                    );
+
+                const speed =
+                    Math.min(
+                        distance / 8,
+                        5
+                    );
+
+                if (now - lastTime > 25) {
+
+                    const particleCount =
+                        Math.max(
+                            1,
+                            Math.floor(speed)
+                        );
+
+                    for (
+                        let i = 0;
+                        i < particleCount;
+                        i++
+                    ) {
+
+                        createParticle(
+                            event.clientX +
+                            (Math.random() - 0.5) * 12,
+
+                            event.clientY +
+                            (Math.random() - 0.5) * 12
+                        );
+                    }
+
+                    lastX = event.clientX;
+                    lastY = event.clientY;
+                    lastTime = now;
+                }
+            }
+        );
+
+    })();
+
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
 # TRAINING DATA
-# =========================================================
+# ============================================================
 
 DATA = {
-
     "pH": [
         6.2, 6.4, 6.5, 6.6, 6.7,
         6.8, 6.9, 7.0, 7.1, 7.2,
@@ -505,9 +521,9 @@ DATA = {
 }
 
 
-# =========================================================
+# ============================================================
 # TRAIN AI MODEL
-# =========================================================
+# ============================================================
 
 @st.cache_resource
 def train_model():
@@ -547,6 +563,9 @@ def train_model():
         y_train
     )
 
+    # IMPORTANT:
+    # Predictions must be made after model.fit()
+
     predictions = model.predict(X_test)
 
     mae = mean_absolute_error(
@@ -560,53 +579,63 @@ def train_model():
     )
 
     validation = pd.DataFrame({
-
-        "Actual H₂": y_test.values,
-
-        "Predicted H₂": predictions
-
+        "Actual H2": y_test.values,
+        "Predicted H2": predictions
     })
 
-    return df, model, mae, r2, validation
+    return (
+        df,
+        model,
+        mae,
+        r2,
+        validation
+    )
 
 
 df, model, mae, r2, validation = train_model()
 
 
-# =========================================================
+# ============================================================
 # HEADER
-# =========================================================
+# ============================================================
 
 st.markdown(
-    '<div class="hero-title">⚡ MEC-AI</div>',
+    """
+    <div class="hero-title">
+        ⚡ MEC-AI
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="hero-subtitle">'
-    'MICROBIAL ELECTROLYSIS • HYDROGEN INTELLIGENCE PLATFORM'
-    '</div>',
+    """
+    <div class="hero-subtitle">
+        MICROBIAL ELECTROLYSIS • HYDROGEN INTELLIGENCE PLATFORM
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div style="text-align:center;">'
-    '<span class="status-online">'
-    '● SYSTEM ONLINE'
-    '</span>'
-    '</div>',
+    """
+    <div style="text-align:center;">
+        <span class="status-online">
+            ● SYSTEM ONLINE
+        </span>
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
 st.write("")
 
 
-# =========================================================
+# ============================================================
 # SIDEBAR
-# =========================================================
+# ============================================================
 
 st.sidebar.markdown("## ⚡ MEC-AI CONTROL")
-
 st.sidebar.markdown("### 🧪 Reactor Parameters")
 
 user_ph = st.sidebar.slider(
@@ -635,10 +664,10 @@ user_voltage = st.sidebar.slider(
 
 user_cod = st.sidebar.number_input(
     "COD (mg/L)",
-    400,
-    800,
-    550,
-    10
+    min_value=400,
+    max_value=800,
+    value=550,
+    step=10
 )
 
 user_current = st.sidebar.slider(
@@ -662,37 +691,36 @@ else:
     st.sidebar.info("Hardware Mode Selected")
 
 st.sidebar.caption(
-    "Final prototype can replace these manual inputs "
-    "with ESP32 sensor data."
+    "Final prototype can replace these manual "
+    "inputs with ESP32 sensor data."
 )
 
 
-# =========================================================
-# AI PREDICTION
-# =========================================================
+# ============================================================
+# CURRENT CONDITION
+# ============================================================
 
 new_condition = pd.DataFrame({
-
     "pH": [user_ph],
-
     "temperature": [user_temp],
-
     "voltage": [user_voltage],
-
     "COD": [user_cod],
-
     "current": [user_current]
-
 })
+
+
+# ============================================================
+# AI PREDICTION
+# ============================================================
 
 predicted_h2 = float(
     model.predict(new_condition)[0]
 )
 
 
-# =========================================================
+# ============================================================
 # REACTOR STATUS
-# =========================================================
+# ============================================================
 
 def get_status():
 
@@ -713,7 +741,7 @@ def get_status():
     if score == 4:
         return "🟢 OPTIMAL"
 
-    elif score >= 2:
+    if score >= 2:
         return "🟡 MODERATE"
 
     return "🔴 ATTENTION"
@@ -722,45 +750,48 @@ def get_status():
 status = get_status()
 
 
-# =========================================================
+# ============================================================
 # AI BRAIN
-# =========================================================
+# ============================================================
 
-st.markdown("""
-<div class="ai-brain">
+st.markdown(
+    """
+    <div class="ai-brain">
 
-    <div class="brain-icon">
-        🧠
+        <div class="brain-icon">
+            🧠
+        </div>
+
+        <div class="brain-title">
+            MEC-AI BRAIN
+        </div>
+
+        <div class="brain-text">
+            XGBoost-powered hydrogen prediction,
+            reactor intelligence and optimization
+        </div>
+
     </div>
-
-    <div class="brain-title">
-        MEC-AI BRAIN
-    </div>
-
-    <div class="brain-text">
-        XGBoost-powered hydrogen prediction,
-        reactor intelligence and optimization
-    </div>
-
-</div>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
 st.write("")
 
 
-# =========================================================
+# ============================================================
 # TOP METRICS
-# =========================================================
+# ============================================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 col1.metric(
-    "⚡ Predicted H₂",
+    "⚡ Predicted H2",
     f"{predicted_h2:.1f} mL"
 )
 
 col2.metric(
-    "🧠 Model R²",
+    "🧠 Model R2",
     f"{r2:.2f}"
 )
 
@@ -775,29 +806,33 @@ col4.metric(
 )
 
 
-# =========================================================
+# ============================================================
 # TABS
-# =========================================================
+# ============================================================
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "⚡ Reactor",
-    "🎯 AI Optimization",
-    "📊 Analytics",
-    "🚨 Intelligence",
-    "📄 Report"
-])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(
+    [
+        "⚡ Reactor",
+        "🎯 AI Optimization",
+        "📊 Analytics",
+        "🚨 Intelligence",
+        "📄 Report"
+    ]
+)
 
 
-# =========================================================
+# ============================================================
 # TAB 1 — REACTOR
-# =========================================================
+# ============================================================
 
 with tab1:
 
     st.markdown(
-        '<div class="section-title">'
-        '⚡ REACTOR COMMAND CENTER'
-        '</div>',
+        """
+        <div class="section-title">
+            ⚡ REACTOR COMMAND CENTER
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
@@ -813,7 +848,6 @@ with tab1:
         st.subheader("🧪 Reactor Conditions")
 
         parameters = pd.DataFrame({
-
             "Parameter": [
                 "pH",
                 "Temperature",
@@ -829,7 +863,6 @@ with tab1:
                 f"{user_cod} mg/L",
                 f"{user_current:.2f} A"
             ]
-
         })
 
         st.dataframe(
@@ -866,7 +899,7 @@ with tab1:
                 },
 
                 title={
-                    "text": "AI Predicted H₂"
+                    "text": "AI Predicted H2"
                 },
 
                 gauge={
@@ -882,9 +915,11 @@ with tab1:
                         {
                             "range": [0, 70]
                         },
+
                         {
                             "range": [70, 130]
                         },
+
                         {
                             "range": [130, 200]
                         }
@@ -921,32 +956,40 @@ with tab1:
         )
 
 
-# =========================================================
+# ============================================================
 # TAB 2 — AI OPTIMIZATION
-# =========================================================
+# ============================================================
 
 with tab2:
 
     st.markdown(
-        '<div class="section-title">'
-        '🎯 AI OPTIMIZATION ENGINE'
-        '</div>',
+        """
+        <div class="section-title">
+            🎯 AI OPTIMIZATION ENGINE
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
     st.write(
-        "The AI searches through different reactor conditions "
-        "to find a combination with high predicted hydrogen production."
+        "The AI searches different reactor conditions "
+        "to find a combination with high predicted "
+        "hydrogen production."
     )
 
-    if st.button("🚀 RUN AI OPTIMIZATION"):
+    if st.button(
+        "🚀 RUN AI OPTIMIZATION",
+        key="optimization_button"
+    ):
+
+        progress = st.progress(0)
 
         best_h2 = -999
         best = None
 
         ph_values = np.arange(
             6.3,
-            7.2,
+            7.21,
             0.1
         )
 
@@ -968,8 +1011,6 @@ with tab2:
             * len(voltage_values)
         )
 
-        progress = st.progress(0)
-
         counter = 0
 
         for ph in ph_values:
@@ -979,17 +1020,11 @@ with tab2:
                 for voltage in voltage_values:
 
                     test_input = pd.DataFrame({
-
                         "pH": [round(ph, 2)],
-
                         "temperature": [temp],
-
                         "voltage": [round(voltage, 2)],
-
                         "COD": [user_cod],
-
                         "current": [user_current]
-
                     })
 
                     prediction = float(
@@ -1001,26 +1036,24 @@ with tab2:
                         best_h2 = prediction
 
                         best = {
-
                             "pH": round(ph, 2),
-
                             "Temperature": temp,
-
                             "Voltage": round(voltage, 2),
-
                             "COD": user_cod,
-
                             "Current": user_current
                         }
 
                     counter += 1
 
                     progress.progress(
-                        min(counter / total, 1.0)
+                        min(
+                            counter / total,
+                            1.0
+                        )
                     )
 
         st.success(
-            "🎯 AI Optimization Completed!"
+            "🎯 AI optimization completed!"
         )
 
         c1, c2 = st.columns(2)
@@ -1035,19 +1068,21 @@ with tab2:
             f"{best_h2:.1f} mL"
         )
 
-        improvement = best_h2 - predicted_h2
-
-        st.metric(
-            "🚀 Potential Improvement",
-            f"{improvement:+.1f} mL"
+        improvement = (
+            best_h2 - predicted_h2
         )
+
+        if improvement >= 0:
+            st.success(
+                f"🚀 Potential improvement: "
+                f"+{improvement:.1f} mL"
+            )
 
         st.subheader(
             "🧠 AI Recommended Conditions"
         )
 
         recommended = pd.DataFrame({
-
             "Parameter": [
                 "pH",
                 "Temperature",
@@ -1063,7 +1098,6 @@ with tab2:
                 f'{best["COD"]} mg/L',
                 f'{best["Current"]:.2f} A'
             ]
-
         })
 
         st.table(recommended)
@@ -1075,16 +1109,18 @@ with tab2:
         )
 
 
-# =========================================================
+# ============================================================
 # TAB 3 — ANALYTICS
-# =========================================================
+# ============================================================
 
 with tab3:
 
     st.markdown(
-        '<div class="section-title">'
-        '📊 AI ANALYTICS'
-        '</div>',
+        """
+        <div class="section-title">
+            📊 AI ANALYTICS
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
@@ -1093,24 +1129,24 @@ with tab3:
     with col1:
 
         st.subheader(
-            "🎯 Actual vs Predicted H₂"
+            "🎯 Actual vs Predicted H2"
         )
 
         fig = px.scatter(
             validation,
-            x="Actual H₂",
-            y="Predicted H₂",
+            x="Actual H2",
+            y="Predicted H2",
             title="AI Model Validation"
         )
 
         minimum = min(
-            validation["Actual H₂"].min(),
-            validation["Predicted H₂"].min()
+            validation["Actual H2"].min(),
+            validation["Predicted H2"].min()
         )
 
         maximum = max(
-            validation["Actual H₂"].max(),
-            validation["Predicted H₂"].max()
+            validation["Actual H2"].max(),
+            validation["Predicted H2"].max()
         )
 
         fig.add_trace(
@@ -1150,11 +1186,8 @@ with tab3:
         importance = model.feature_importances_
 
         feature_df = pd.DataFrame({
-
             "Parameter": features,
-
             "Importance": importance
-
         }).sort_values(
             "Importance",
             ascending=True
@@ -1165,7 +1198,7 @@ with tab3:
             x="Importance",
             y="Parameter",
             orientation="h",
-            title="What Influences H₂ Prediction?"
+            title="What Influences H2 Prediction?"
         )
 
         fig2.update_layout(
@@ -1179,72 +1212,73 @@ with tab3:
             use_container_width=True
         )
 
+    st.subheader("📋 Validation Data")
 
-# =========================================================
+    st.dataframe(
+        validation.round(2),
+        hide_index=True,
+        use_container_width=True
+    )
+
+
+# ============================================================
 # TAB 4 — INTELLIGENCE
-# =========================================================
+# ============================================================
 
 with tab4:
 
     st.markdown(
-        '<div class="section-title">'
-        '🚨 REACTOR INTELLIGENCE'
-        '</div>',
+        """
+        <div class="section-title">
+            🚨 REACTOR INTELLIGENCE
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
     alerts = []
 
     if user_ph < 6.5:
-
         alerts.append(
             "🔴 pH is below the target range."
         )
 
     elif user_ph > 7.0:
-
         alerts.append(
             "🟡 pH is above the target range."
         )
 
     else:
-
         alerts.append(
             "🟢 pH is within the target range."
         )
 
     if 30 <= user_temp <= 37:
-
         alerts.append(
             "🟢 Temperature is within the selected range."
         )
 
     else:
-
         alerts.append(
             "🟡 Temperature is outside the selected range."
         )
 
     if 0.5 <= user_voltage <= 0.8:
-
         alerts.append(
             "🟢 Applied voltage is within the selected range."
         )
 
     else:
-
         alerts.append(
             "🟡 Applied voltage should be reviewed."
         )
 
     if 0.35 <= user_current <= 0.55:
-
         alerts.append(
             "🟢 Current is within the selected range."
         )
 
     else:
-
         alerts.append(
             "🟡 Current is outside the selected range."
         )
@@ -1266,22 +1300,24 @@ with tab4:
 
     st.info(
         f"The AI predicts approximately "
-        f"**{predicted_h2:.1f} mL H₂** under the current conditions. "
+        f"**{predicted_h2:.1f} mL H2** "
+        f"under the current conditions. "
         f"Reactor status: **{status}**."
     )
 
     st.subheader(
-        "🔌 Hardware Integration"
+        "🔌 Hardware Integration Architecture"
     )
 
-    st.code("""
+    st.code(
+        """
 MEC REACTOR
      │
      ├── pH Sensor
      ├── Temperature Sensor
      ├── Voltage Sensor
      ├── Current Sensor
-     └── H₂ Sensor
+     └── H2 Sensor
             │
             ▼
           ESP32
@@ -1290,43 +1326,46 @@ MEC REACTOR
            Wi-Fi
             │
             ▼
-        MEC-AI CLOUD
+       MEC-AI CLOUD
             │
        ┌────┴────┐
        ▼         ▼
     XGBoost    Alerts
        │
        ▼
- H₂ Prediction
+ H2 Prediction
        │
        ▼
  Optimization
-""", language="text")
+        """,
+        language="text"
+    )
 
 
-# =========================================================
+# ============================================================
 # TAB 5 — REPORT
-# =========================================================
+# ============================================================
 
 with tab5:
 
     st.markdown(
-        '<div class="section-title">'
-        '📄 MEC-AI REPORT'
-        '</div>',
+        """
+        <div class="section-title">
+            📄 MEC-AI REPORT
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
     report = pd.DataFrame({
-
         "Parameter": [
             "pH",
             "Temperature (°C)",
             "Applied Voltage (V)",
             "COD (mg/L)",
             "Current (A)",
-            "Predicted H₂ (mL)",
-            "Model R²",
+            "Predicted H2 (mL)",
+            "Model R2",
             "MAE (mL)",
             "Reactor Status"
         ],
@@ -1342,7 +1381,6 @@ with tab5:
             round(mae, 2),
             status
         ]
-
     })
 
     st.dataframe(
@@ -1351,21 +1389,24 @@ with tab5:
         use_container_width=True
     )
 
-    csv = report.to_csv(
+    csv_data = report.to_csv(
         index=False
     ).encode("utf-8")
 
     st.download_button(
         label="⬇️ DOWNLOAD MEC-AI REPORT",
-        data=csv,
+
+        data=csv_data,
+
         file_name="MEC_AI_Report.csv",
+
         mime="text/csv"
     )
 
 
-# =========================================================
+# ============================================================
 # FOOTER
-# =========================================================
+# ============================================================
 
 st.divider()
 
@@ -1375,13 +1416,13 @@ st.markdown(
         text-align:center;
         color:#6f7b96;
         font-size:12px;
-        padding:10px;
+        padding:15px;
     ">
 
         ⚡ <b>MEC-AI</b>
         • Microbial Electrolysis Cell Intelligence Platform
 
-        <br>
+        <br><br>
 
         🧠 AI Prediction
         • ⚡ Energy Intelligence
@@ -1391,7 +1432,7 @@ st.markdown(
         <br><br>
 
         <span style="color:#00f5d4;">
-        ESP32 + Sensors + AI = Smart Hydrogen Reactor
+            ESP32 + Sensors + AI = Smart Hydrogen Reactor
         </span>
 
     </div>
